@@ -3,7 +3,7 @@
 Implementations of the environments specified in the paper "Prediction and
 Control in Continual Reinforcement Learning" by Nishanth Anand and Doina Precup.
 
-![Figure 5.2.a](images/5.2.a.png)
+![Figure 3.a](images/3.a.png)
 
 ## Installation
 ```bash
