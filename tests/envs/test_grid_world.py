@@ -1,5 +1,6 @@
 import gymnasium as gym
 import numpy as np
+from PIL import Image
 
 import gym_continual_rl
 
@@ -369,6 +370,7 @@ def test_grid_world_render():
     env = gym.make("gym_continual_rl/GridWorld-v0", render_mode="rgb_array")
     env.reset(seed=0)
     frame = env.render()
-    expected_frame = np.load("tests/envs/test_grid_world_render.npy")
-    assert np.array_equal(frame, expected_frame)
+    image = Image.fromarray(frame)
+    expected_image = Image.open("images/5.2.a.png")
+    assert np.array_equal(np.array(image), np.array(expected_image))
     env.close()
