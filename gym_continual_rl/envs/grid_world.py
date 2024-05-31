@@ -10,7 +10,6 @@ class GridWorldEnv(gymnasium.Env):
     def __init__(
         self,
         render_mode: str = None,
-        size: int = 5,
         start_location: np.ndarray = None,
         goal_locations: list[np.ndarray] = None,
         goal_rewards: list[np.ndarray] = None,
@@ -20,14 +19,6 @@ class GridWorldEnv(gymnasium.Env):
         self.size = size  # The size of the square grid
         self.window_size = 512  # The size of the PyGame window
 
-        # Observations are dictionaries with the agent's and the target's location.
-        # Each location is encoded as an element of {0, ..., `size`}^2, i.e. MultiDiscrete([size, size]).
-        self.observation_space = spaces.Dict(
-            {
-                "agent": spaces.Box(0, size - 1, shape=(2,), dtype=int),
-                "target": spaces.Box(0, size - 1, shape=(2,), dtype=int),
-            }
-        )
 
         # We have 4 actions, corresponding to "right", "up", "left", "down"
         self.action_space = spaces.Discrete(4)
@@ -54,7 +45,6 @@ class GridWorldEnv(gymnasium.Env):
         )
         self.goal_rewards = goal_rewards if goal_rewards is not None else [1, -1]
         self.task = 0
-        self.obstacles = obstacles
         self.slippery = slippery
 
         assert render_mode is None or render_mode in self.metadata["render_modes"]
@@ -97,21 +87,14 @@ class GridWorldEnv(gymnasium.Env):
     def step(self, action):
         # The action has the intended effect (1-self.slippery)% of the time;
         # otherwise, it is swapped with one of the perpendicular actions
-        if self.np_random.rand() < self.slippery:
-            action = self.np_random.choice([1, 3] if action % 2 else [0, 2])
-
         # Map the action (element of {0,1,2,3}) to the direction we walk in
         direction = self._action_to_direction[action]
         # We use `np.clip` to make sure we don't leave the grid
         new_location = np.clip(self._agent_location + direction, 0, self.size - 1)
-        if new_location not in self.obstacles:
             self._agent_location = new_location
 
         # An episode is done iff the agent has reached any of the goal locations
-        done = self._agent_location in self.goal_locations
         reward = 0
-        if done:
-            reward = self.goal_rewards[self.goal_locations.index(self._agent_location)]
         if self.task == 1:
             reward = -reward
         observation = self._get_obs()
@@ -127,9 +110,7 @@ class GridWorldEnv(gymnasium.Env):
             return self._render_frame()
 
     def _render_frame(self):
-        if self.window is None and self.render_mode == "human":
             pygame.init()
-            pygame.display.init()
             self.window = pygame.display.set_mode((self.window_size, self.window_size))
         if self.clock is None and self.render_mode == "human":
             self.clock = pygame.time.Clock()
@@ -139,21 +120,7 @@ class GridWorldEnv(gymnasium.Env):
         pix_square_size = self.window_size / self.size  # The size of a single grid square in pixels
 
         # First we draw the target
-        pygame.draw.rect(
-            canvas,
-            (255, 0, 0),
-            pygame.Rect(
-                pix_square_size * self._target_location,
-                (pix_square_size, pix_square_size),
-            ),
-        )
         # Now we draw the agent
-        pygame.draw.circle(
-            canvas,
-            (0, 0, 255),
-            (self._agent_location + 0.5) * pix_square_size,
-            pix_square_size / 3,
-        )
 
         # Finally, add some gridlines
         for x in range(self.size + 1):
