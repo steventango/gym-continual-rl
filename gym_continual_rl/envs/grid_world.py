@@ -1,10 +1,10 @@
-import gymnasium
+import gymnasium as gym
 import numpy as np
 import pygame
 from gymnasium import spaces
 
 
-class GridWorldEnv(gymnasium.Env):
+class GridWorldEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
 
     def __init__(
