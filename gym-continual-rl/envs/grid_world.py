@@ -1,10 +1,10 @@
-import gym
-from gym import spaces
-import pygame
+import gymnasium
 import numpy as np
+import pygame
+from gymnasium import spaces
 
 
-class GridWorldEnv(gym.Env):
+class GridWorldEnv(gymnasium.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
 
     def __init__(self, render_mode=None, size=5):
@@ -24,7 +24,7 @@ class GridWorldEnv(gym.Env):
         self.action_space = spaces.Discrete(4)
 
         """
-        The following dictionary maps abstract actions from `self.action_space` to 
+        The following dictionary maps abstract actions from `self.action_space` to
         the direction we will walk in if that action is taken.
         I.e. 0 corresponds to "right", 1 to "up" etc.
         """
