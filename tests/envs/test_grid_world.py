@@ -1,8 +1,9 @@
+from pathlib import Path
+
+import gym_continual_rl  # noqa: F401
 import gymnasium as gym
 import numpy as np
 from PIL import Image
-
-import gym_continual_rl
 
 RIGHT = 0
 UP = 1
@@ -553,6 +554,7 @@ def test_grid_world_render():
     env.reset(seed=0)
     frame = env.render()
     image = Image.fromarray(frame)
-    expected_image = Image.open("images/5.2.a.png")
+    IMAGES_PATH = Path(__file__).parent.parent.parent / "images"
+    expected_image = Image.open(IMAGES_PATH / "3.a.png")
     assert np.array_equal(np.array(image), np.array(expected_image))
     env.close()
