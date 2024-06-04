@@ -33,12 +33,14 @@ class GridWorldEnv(gym.Env):
         I.e. 0 corresponds to "right", 1 to "up" etc.
         """
         self._action_to_direction = {
-            0: np.array([1, 0]), # right
-            1: np.array([0, 1]), # up
-            2: np.array([-1, 0]), # left
-            3: np.array([0, -1]), # down
+            0: np.array([1, 0]),  # right
+            1: np.array([0, 1]),  # up
+            2: np.array([-1, 0]),  # left
+            3: np.array([0, -1]),  # down
         }
-        self.start_location = start_location if start_location is not None else np.array([0, 0])
+        self.start_location = (
+            start_location if start_location is not None else np.array([0, 0])
+        )
         self.goal_locations = (
             goal_locations
             if goal_locations is not None
@@ -49,11 +51,15 @@ class GridWorldEnv(gym.Env):
         )
         self.goal_rewards = goal_rewards if goal_rewards is not None else [1, -1]
         self.task = 0
-        self.obstacles = obstacles if obstacles is not None else [
-            np.array([1, 2]),
-            np.array([1, 3]),
-            np.array([2, 3]),
-        ]
+        self.obstacles = (
+            obstacles
+            if obstacles is not None
+            else [
+                np.array([1, 2]),
+                np.array([1, 3]),
+                np.array([2, 3]),
+            ]
+        )
         self.slippery = slippery
 
         assert render_mode is None or render_mode in self.metadata["render_modes"]
@@ -102,7 +108,9 @@ class GridWorldEnv(gym.Env):
         direction = self._action_to_direction[action]
         # We use `np.clip` to make sure we don't leave the grid
         new_location = np.clip(self._agent_location + direction, 0, self.size - 1)
-        if all(not np.array_equal(new_location, obstacle) for obstacle in self.obstacles):
+        if all(
+            not np.array_equal(new_location, obstacle) for obstacle in self.obstacles
+        ):
             self._agent_location = new_location
 
         # An episode is done iff the agent has reached any of the goal locations
@@ -137,7 +145,9 @@ class GridWorldEnv(gym.Env):
 
         canvas = pygame.Surface((self.window_size, self.window_size))
         canvas.fill((255, 255, 255))
-        pix_square_size = self.window_size / self.size  # The size of a single grid square in pixels
+        pix_square_size = (
+            self.window_size / self.size
+        )  # The size of a single grid square in pixels
 
         # First we draw the target
         for i, goal_location in enumerate(self.goal_locations):
@@ -154,7 +164,9 @@ class GridWorldEnv(gym.Env):
             # add labels to goals
             font = pygame.font.SysFont("dejavuserif", 64)
             text = font.render(f"G{i+1}", True, (0, 0, 0))
-            text_rect = text.get_rect(center=(pix_square_size * goal_location + pix_square_size / 2))
+            text_rect = text.get_rect(
+                center=(pix_square_size * goal_location + pix_square_size / 2)
+            )
             canvas.blit(text, text_rect)
 
         # Next we draw the obstacles
@@ -209,7 +221,9 @@ class GridWorldEnv(gym.Env):
             # The following line will automatically add a delay to keep the framerate stable.
             self.clock.tick(self.metadata["render_fps"])
         else:  # rgb_array
-            return np.transpose(np.array(pygame.surfarray.pixels3d(canvas)), axes=(1, 0, 2))
+            return np.transpose(
+                np.array(pygame.surfarray.pixels3d(canvas)), axes=(1, 0, 2)
+            )
 
     def close(self):
         if self.window is not None:
