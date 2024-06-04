@@ -211,6 +211,7 @@ def test_grid_world_no_slippery_g2():
 
     env.close()
 
+
 def test_grid_world_no_slippery_g1_task2():
     env = gym.make("gym_continual_rl/GridWorld-v0", slippery=0.0)
     obs, info = env.reset(seed=0, options={"task": 1})
