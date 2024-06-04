@@ -1,9 +1,10 @@
 from pathlib import Path
 
-import gym_continual_rl  # noqa: F401
 import gymnasium as gym
 import numpy as np
 from PIL import Image
+
+import gym_continual_rl  # noqa: F401
 
 RIGHT = 0
 UP = 1
