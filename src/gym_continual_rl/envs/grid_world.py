@@ -86,7 +86,7 @@ class GridWorldEnv(gym.Env):
     def reset(self, seed=None, options=None):
         # We need the following line to seed self.np_random
         super().reset(seed=seed)
-        if options is not None:
+        if options is not None and "task" in options:
             self.task = options["task"]
 
         self._agent_location = self.start_location
