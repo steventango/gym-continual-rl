@@ -70,12 +70,12 @@ class LMiniGridEnv(MiniGridEnv):
         self._agent_default_dir = 0
         self._goal_default_pos = [
             {
-                (11, 1): 5,
-                (13, 3): 0,
+                (7, 1): 5,
+                (9, 3): 0,
             },
             {
-                (11, 1): 0,
-                (13, 3): 5,
+                (7, 1): 0,
+                (9, 3): 5,
             },
         ]
         self.wall_positions = [(3, 4), (4, 4)]

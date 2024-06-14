@@ -32,7 +32,7 @@ def test_l_mini_grid_env_task0_goal0():
     assert reward == 0
     assert not terminated
     assert not truncated
-    for _ in range(8):
+    for _ in range(4):
         obs, reward, terminated, truncated, info = env.step(env.actions.forward)
         assert obs is not None
         assert reward == 0
@@ -69,7 +69,7 @@ def test_l_mini_grid_env_task0_goal1():
     assert reward == 0
     assert not terminated
     assert not truncated
-    for _ in range(10):
+    for _ in range(6):
         obs, reward, terminated, truncated, info = env.step(env.actions.forward)
         assert obs is not None
         assert reward == 0
@@ -106,7 +106,7 @@ def test_l_mini_grid_env_task1_goal0():
     assert reward == 0
     assert not terminated
     assert not truncated
-    for _ in range(8):
+    for _ in range(4):
         obs, reward, terminated, truncated, info = env.step(env.actions.forward)
         assert obs is not None
         assert reward == 0
@@ -144,7 +144,7 @@ def test_l_mini_grid_env_task1_goal1():
     assert reward == 0
     assert not terminated
     assert not truncated
-    for _ in range(10):
+    for _ in range(6):
         obs, reward, terminated, truncated, info = env.step(env.actions.forward)
         assert obs is not None
         assert reward == 0
@@ -163,7 +163,6 @@ def test_l_mini_grid_render():
     frame = env.render()
     image = Image.fromarray(frame)
     IMAGES_PATH = Path(__file__).parent.parent.parent / "images"
-    image.save(IMAGES_PATH / f"3.c.png")
     expected_image = Image.open(IMAGES_PATH / "3.c.png")
     assert np.array_equal(np.array(image), np.array(expected_image))
     env.close()
