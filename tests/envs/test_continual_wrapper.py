@@ -73,7 +73,7 @@ def run_g2_trajectory(env: gym.Env):
 
 
 def test_continual_wrapper():
-    env = gym.make("gym_continual_rl/Puddle-v0")
+    env = gym.make("gym_continual_rl/PuddleWorld-v0")
     env = ContinualWrapper(env, task_duration=1, n_tasks=5)
     _ = env.reset(seed=0)
     assert np.array_equal(env.unwrapped.puddle_top_left, env.unwrapped.env_setups[0]["puddle_top_left"])
@@ -103,7 +103,7 @@ def test_continual_wrapper():
 
 
 def test_continual_wrapper_sample():
-    env = gym.make("gym_continual_rl/Puddle-v0")
+    env = gym.make("gym_continual_rl/PuddleWorld-v0")
     env = ContinualWrapper(env, task_duration=1, n_tasks=5, sample=True, seed=0)
     _ = env.reset(seed=0)
     assert np.array_equal(env.unwrapped.puddle_top_left, env.unwrapped.env_setups[4]["puddle_top_left"])

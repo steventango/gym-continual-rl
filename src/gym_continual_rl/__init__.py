@@ -11,6 +11,6 @@ register(
 )
 
 register(
-    id="gym_continual_rl/Puddle-v0",
+    id="gym_continual_rl/PuddleWorld-v0",
     entry_point="gym_continual_rl.envs:PuddleEnv",
 )
