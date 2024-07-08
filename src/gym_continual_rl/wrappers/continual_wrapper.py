@@ -4,7 +4,7 @@ import gymnasium as gym
 from gymnasium.core import WrapperObsType
 
 
-class ContinualWrapper(gym.Wrapper):
+class EpisodicContinualWrapper(gym.Wrapper):
     def __init__(self, env, change_task_every_n_episodes: int = 50, n_tasks: int = 2):
         super().__init__(env)
         self.change_task_every_n_episodes = change_task_every_n_episodes
