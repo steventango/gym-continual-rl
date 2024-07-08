@@ -66,20 +66,9 @@ def test_puddle_env_custom_task_0():
     _ = env.reset(seed=0)
     assert np.array_equal(env.unwrapped.start, env.unwrapped.env_setups[0]["start"])
     assert np.array_equal(env.unwrapped.goal, env.unwrapped.env_setups[0]["goal"])
-    frame = env.render()
-    # save frame for visual inspection
-    from PIL import Image
-
-    Image.fromarray(frame).save("puddle_env_custom.png")
-
 
 def test_puddle_env_custom_task_1():
     env = gym.make("gym_continual_rl/PuddleWorld-v0", render_mode="rgb_array", env_setups=CUSTOM_ENV_SETUPS, task=1)
     _ = env.reset(seed=0)
     assert np.array_equal(env.unwrapped.start, env.unwrapped.env_setups[1]["start"])
     assert np.array_equal(env.unwrapped.goal, env.unwrapped.env_setups[1]["goal"])
-    frame = env.render()
-    # save frame for visual inspection
-    from PIL import Image
-
-    Image.fromarray(frame).save("puddle_env_custom_1.png")
