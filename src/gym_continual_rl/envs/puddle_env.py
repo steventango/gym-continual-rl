@@ -21,6 +21,8 @@ class PuddleEnv(BaseContinualEnv, BasePuddleEnv):
                 with open(f"gym-puddle/gym_puddle/env_configs/pw{i}.json") as f:
                     env_setup = json.load(f)
                 self.env_setups.append(env_setup)
+        else:
+            self.env_setups = env_setups
         self.change_task(task)
 
     def change(
