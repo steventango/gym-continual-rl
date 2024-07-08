@@ -11,6 +11,7 @@ class PuddleEnv(BaseContinualEnv, BasePuddleEnv):
         self,
         *args,
         env_setups: list[dict] = [],
+        task: int = 0,
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
@@ -20,6 +21,7 @@ class PuddleEnv(BaseContinualEnv, BasePuddleEnv):
                 with open(f"gym-puddle/gym_puddle/env_configs/pw{i}.json") as f:
                     env_setup = json.load(f)
                 self.env_setups.append(env_setup)
+        self.change_task(task)
 
     def change(
         self,
