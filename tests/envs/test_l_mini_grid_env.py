@@ -8,8 +8,8 @@ import gym_continual_rl  # noqa: F401
 
 
 def test_l_mini_grid_env_task0_goal0():
-    env = gym.make("gym_continual_rl/LMiniGrid-v0")
-    obs, info = env.reset(seed=0, options={"task": 0})
+    env = gym.make("gym_continual_rl/LMiniGrid-v0", task=0)
+    obs, info = env.reset(seed=0)
     for _ in range(2):
         obs, reward, terminated, truncated, info = env.step(env.actions.forward)
         assert obs is not None
@@ -45,8 +45,8 @@ def test_l_mini_grid_env_task0_goal0():
     assert not truncated
 
 def test_l_mini_grid_env_task0_goal1():
-    env = gym.make("gym_continual_rl/LMiniGrid-v0")
-    obs, info = env.reset(seed=0, options={"task": 0})
+    env = gym.make("gym_continual_rl/LMiniGrid-v0", task=0)
+    obs, info = env.reset(seed=0)
     for _ in range(2):
         obs, reward, terminated, truncated, info = env.step(env.actions.forward)
         assert obs is not None
@@ -82,8 +82,8 @@ def test_l_mini_grid_env_task0_goal1():
     assert not truncated
 
 def test_l_mini_grid_env_task1_goal0():
-    env = gym.make("gym_continual_rl/LMiniGrid-v0")
-    obs, info = env.reset(seed=0, options={"task": 1})
+    env = gym.make("gym_continual_rl/LMiniGrid-v0", task=1)
+    obs, info = env.reset(seed=0)
     for _ in range(2):
         obs, reward, terminated, truncated, info = env.step(env.actions.forward)
         assert obs is not None
@@ -120,8 +120,8 @@ def test_l_mini_grid_env_task1_goal0():
 
 
 def test_l_mini_grid_env_task1_goal1():
-    env = gym.make("gym_continual_rl/LMiniGrid-v0")
-    obs, info = env.reset(seed=0, options={"task": 1})
+    env = gym.make("gym_continual_rl/LMiniGrid-v0", task=1)
+    obs, info = env.reset(seed=0)
     for _ in range(2):
         obs, reward, terminated, truncated, info = env.step(env.actions.forward)
         assert obs is not None

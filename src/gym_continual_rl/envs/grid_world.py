@@ -1,10 +1,11 @@
-import gymnasium as gym
 import numpy as np
 import pygame
 from gymnasium import spaces
 
+from gym_continual_rl.envs.base import BaseContinualEnv
 
-class GridWorldEnv(gym.Env):
+
+class GridWorldEnv(BaseContinualEnv):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
 
     def __init__(
@@ -16,6 +17,7 @@ class GridWorldEnv(gym.Env):
         goal_rewards: list[np.ndarray] = None,
         obstacles: list[np.ndarray] = None,
         slippery: float = 0.1,
+        task: int = 0,
     ):
         self.size = size  # The size of the square grid
         self.window_size = 512  # The size of the PyGame window
@@ -50,7 +52,7 @@ class GridWorldEnv(gym.Env):
             ]
         )
         self.goal_rewards = goal_rewards if goal_rewards is not None else [1, -1]
-        self.task = 0
+        self.task = task
         self.obstacles = (
             obstacles
             if obstacles is not None
@@ -79,15 +81,14 @@ class GridWorldEnv(gym.Env):
         return self._agent_location
 
     def _get_info(self):
-        return {
-            "n_tasks": len(self.goal_locations),
-        }
+        return {}
+
+    def change_task(self, task: int):
+        self.task = task
 
     def reset(self, seed=None, options=None):
         # We need the following line to seed self.np_random
         super().reset(seed=seed)
-        if options is not None and "task" in options:
-            self.task = options["task"]
 
         self._agent_location = self.start_location
 

@@ -1,16 +1,15 @@
 from __future__ import annotations
 
-from typing import Any
-
-from gymnasium.core import ObsType
 from gymnasium.spaces import Discrete
 from minigrid.core.grid import Grid
 from minigrid.core.mission import MissionSpace
 from minigrid.core.world_object import Goal, Wall
 from minigrid.minigrid_env import MiniGridEnv
 
+from gym_continual_rl.envs.base import BaseContinualEnv
 
-class LMiniGridEnv(MiniGridEnv):
+
+class LMiniGridEnv(BaseContinualEnv, MiniGridEnv):
     """
     ## Description
 
@@ -64,6 +63,7 @@ class LMiniGridEnv(MiniGridEnv):
         self,
         agent_pos=None,
         goal_pos=None,
+        task: int = 0,
         **kwargs,
     ):
         self._agent_default_pos = agent_pos
@@ -79,7 +79,7 @@ class LMiniGridEnv(MiniGridEnv):
             },
         ]
         self.wall_positions = [(3, 4), (4, 4)]
-        self.task = 0
+        self.task = task
 
         mission_space = MissionSpace(mission_func=self._gen_mission)
         super().__init__(
@@ -127,9 +127,5 @@ class LMiniGridEnv(MiniGridEnv):
     def _reward(self) -> float:
         return self._goal_default_pos[self.task][tuple(self.agent_pos)]
 
-    def reset(
-        self, *, seed: int | None = None, options: dict[str, Any] | None = None
-    ) -> tuple[ObsType, dict[str, Any]]:
-        if options is not None and "task" in options:
-            self.task = options["task"]
-        return super().reset(seed=seed, options=options)
+    def change_task(self, task: int) -> None:
+        self.task = task

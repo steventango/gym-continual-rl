@@ -1,6 +1,6 @@
 [project]
 name = "gym_continual_rl"
-version = "0.0.5"
+version = "0.1.0"
 dependencies = [
   "gymnasium==0.29.1",
   "minigrid==2.3.1",

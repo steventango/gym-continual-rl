@@ -215,8 +215,8 @@ def test_grid_world_no_slippery_g2():
 
 
 def test_grid_world_no_slippery_g1_task2():
-    env = gym.make("gym_continual_rl/GridWorld-v0", slippery=0.0)
-    obs, info = env.reset(seed=0, options={"task": 1})
+    env = gym.make("gym_continual_rl/GridWorld-v0", slippery=0.0, task=1)
+    obs, info = env.reset(seed=0)
     assert np.array_equal(obs, np.array([0, 0]))
 
     obs, reward, terminated, truncated, info = env.step(UP)
@@ -313,8 +313,8 @@ def test_grid_world_no_slippery_g1_task2():
 
 
 def test_grid_world_no_slippery_g2_tasks2():
-    env = gym.make("gym_continual_rl/GridWorld-v0", slippery=0.0)
-    obs, info = env.reset(seed=0, options={"task": 1})
+    env = gym.make("gym_continual_rl/GridWorld-v0", slippery=0.0, task=1)
+    obs, info = env.reset(seed=0)
     assert np.array_equal(obs, np.array([0, 0]))
 
     obs, reward, terminated, truncated, info = env.step(LEFT)

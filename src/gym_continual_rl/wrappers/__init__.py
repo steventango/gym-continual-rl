@@ -1,1 +1,4 @@
-from gym_continual_rl.wrappers.continual_wrapper import ContinualWrapper  # noqa: F401
+from gym_continual_rl.wrappers.continual_wrapper import (  # noqa: F401
+    ContinualWrapper,
+    EpisodicContinualWrapper,
+)
