@@ -11,108 +11,110 @@ def test_l_mini_grid_env_task0_goal0():
     env = gym.make("gym_continual_rl/LMiniGrid-v0", task=0)
     obs, info = env.reset(seed=0)
     for _ in range(2):
-        obs, reward, terminated, truncated, info = env.step(env.actions.forward)
+        obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.forward)
         assert obs is not None
         assert reward == 0
         assert not terminated
         assert not truncated
-    obs, reward, terminated, truncated, info = env.step(env.actions.right)
+    obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.right)
     assert obs is not None
     assert reward == 0
     assert not terminated
     assert not truncated
     for _ in range(8):
-        obs, reward, terminated, truncated, info = env.step(env.actions.forward)
+        obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.forward)
         assert obs is not None
         assert reward == 0
         assert not terminated
         assert not truncated
-    obs, reward, terminated, truncated, info = env.step(env.actions.right)
+    obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.right)
     assert obs is not None
     assert reward == 0
     assert not terminated
     assert not truncated
     for _ in range(4):
-        obs, reward, terminated, truncated, info = env.step(env.actions.forward)
+        obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.forward)
         assert obs is not None
         assert reward == 0
         assert not terminated
         assert not truncated
-    obs, reward, terminated, truncated, info = env.step(env.actions.forward)
+    obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.forward)
     assert obs is not None
     assert reward == 5
     assert terminated
     assert not truncated
 
+
 def test_l_mini_grid_env_task0_goal1():
     env = gym.make("gym_continual_rl/LMiniGrid-v0", task=0)
     obs, info = env.reset(seed=0)
     for _ in range(2):
-        obs, reward, terminated, truncated, info = env.step(env.actions.forward)
+        obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.forward)
         assert obs is not None
         assert reward == 0
         assert not terminated
         assert not truncated
-    obs, reward, terminated, truncated, info = env.step(env.actions.right)
+    obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.right)
     assert obs is not None
     assert reward == 0
     assert not terminated
     assert not truncated
     for _ in range(6):
-        obs, reward, terminated, truncated, info = env.step(env.actions.forward)
+        obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.forward)
         assert obs is not None
         assert reward == 0
         assert not terminated
         assert not truncated
-    obs, reward, terminated, truncated, info = env.step(env.actions.right)
+    obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.right)
     assert obs is not None
     assert reward == 0
     assert not terminated
     assert not truncated
     for _ in range(6):
-        obs, reward, terminated, truncated, info = env.step(env.actions.forward)
+        obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.forward)
         assert obs is not None
         assert reward == 0
         assert not terminated
         assert not truncated
-    obs, reward, terminated, truncated, info = env.step(env.actions.forward)
+    obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.forward)
     assert obs is not None
     assert reward == 0
     assert terminated
     assert not truncated
 
+
 def test_l_mini_grid_env_task1_goal0():
     env = gym.make("gym_continual_rl/LMiniGrid-v0", task=1)
     obs, info = env.reset(seed=0)
     for _ in range(2):
-        obs, reward, terminated, truncated, info = env.step(env.actions.forward)
+        obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.forward)
         assert obs is not None
         assert reward == 0
         assert not terminated
         assert not truncated
-    obs, reward, terminated, truncated, info = env.step(env.actions.right)
+    obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.right)
     assert obs is not None
     assert reward == 0
     assert not terminated
     assert not truncated
     for _ in range(8):
-        obs, reward, terminated, truncated, info = env.step(env.actions.forward)
+        obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.forward)
         assert obs is not None
         assert reward == 0
         assert not terminated
         assert not truncated
-    obs, reward, terminated, truncated, info = env.step(env.actions.right)
+    obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.right)
     assert obs is not None
     assert reward == 0
     assert not terminated
     assert not truncated
     for _ in range(4):
-        obs, reward, terminated, truncated, info = env.step(env.actions.forward)
+        obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.forward)
         assert obs is not None
         assert reward == 0
         assert not terminated
         assert not truncated
-    obs, reward, terminated, truncated, info = env.step(env.actions.forward)
+    obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.forward)
     assert obs is not None
     assert reward == 0
     assert terminated
@@ -123,34 +125,34 @@ def test_l_mini_grid_env_task1_goal1():
     env = gym.make("gym_continual_rl/LMiniGrid-v0", task=1)
     obs, info = env.reset(seed=0)
     for _ in range(2):
-        obs, reward, terminated, truncated, info = env.step(env.actions.forward)
+        obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.forward)
         assert obs is not None
         assert reward == 0
         assert not terminated
         assert not truncated
-    obs, reward, terminated, truncated, info = env.step(env.actions.right)
+    obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.right)
     assert obs is not None
     assert reward == 0
     assert not terminated
     assert not truncated
     for _ in range(6):
-        obs, reward, terminated, truncated, info = env.step(env.actions.forward)
+        obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.forward)
         assert obs is not None
         assert reward == 0
         assert not terminated
         assert not truncated
-    obs, reward, terminated, truncated, info = env.step(env.actions.right)
+    obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.right)
     assert obs is not None
     assert reward == 0
     assert not terminated
     assert not truncated
     for _ in range(6):
-        obs, reward, terminated, truncated, info = env.step(env.actions.forward)
+        obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.forward)
         assert obs is not None
         assert reward == 0
         assert not terminated
         assert not truncated
-    obs, reward, terminated, truncated, info = env.step(env.actions.forward)
+    obs, reward, terminated, truncated, info = env.step(env.unwrapped.actions.forward)
     assert obs is not None
     assert reward == 5
     assert terminated

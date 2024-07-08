@@ -38,7 +38,7 @@ class ContinualWrapper(gym.Wrapper):
             self.task = self.np_random_task.integers(self.n_tasks)
         else:
             self.task = (self.task + 1) % self.n_tasks
-        self.env.change_task(self.task)
+        self.env.unwrapped.change_task(self.task)
 
 
 class EpisodicContinualWrapper(ContinualWrapper):
