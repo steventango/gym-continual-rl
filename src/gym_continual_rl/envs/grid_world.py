@@ -1,9 +1,17 @@
+import enum
+
 import numpy as np
 import pygame
 from gymnasium import spaces
 
 from gym_continual_rl.envs.base import BaseContinualEnv
 
+
+class Action(enum.IntEnum):
+    RIGHT = 0
+    UP = 1
+    LEFT = 2
+    DOWN = 3
 
 class GridWorldEnv(BaseContinualEnv):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
@@ -35,10 +43,10 @@ class GridWorldEnv(BaseContinualEnv):
         I.e. 0 corresponds to "right", 1 to "up" etc.
         """
         self._action_to_direction = {
-            0: np.array([1, 0]),  # right
-            1: np.array([0, 1]),  # up
-            2: np.array([-1, 0]),  # left
-            3: np.array([0, -1]),  # down
+            Action.RIGHT: np.array([1, 0]),  # right
+            Action.UP: np.array([0, 1]),  # up
+            Action.LEFT: np.array([-1, 0]),  # left
+            Action.DOWN: np.array([0, -1]),  # down
         }
         self.start_location = (
             start_location if start_location is not None else np.array([0, 0])
@@ -100,7 +108,7 @@ class GridWorldEnv(BaseContinualEnv):
 
         return observation, info
 
-    def step(self, action):
+    def step(self, action: Action):
         # The action has the intended effect (1-self.slippery)% of the time;
         # otherwise, it is swapped with one of the perpendicular actions
         if self.np_random.uniform() < self.slippery:

@@ -5,11 +5,7 @@ import numpy as np
 from PIL import Image
 
 import gym_continual_rl  # noqa: F401
-
-RIGHT = 0
-UP = 1
-LEFT = 2
-DOWN = 3
+from gym_continual_rl.envs.grid_world import Action
 
 
 def test_grid_world_no_slippery_g1():
@@ -17,91 +13,91 @@ def test_grid_world_no_slippery_g1():
     obs, info = env.reset(seed=0)
     assert np.array_equal(obs, np.array([0, 0]))
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([0, 1]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([0, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([0, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([0, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([0, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([0, 4]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([1, 4]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(DOWN)
+    obs, reward, terminated, truncated, info = env.step(Action.DOWN)
     assert np.array_equal(obs, np.array([1, 4]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([2, 4]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(DOWN)
+    obs, reward, terminated, truncated, info = env.step(Action.DOWN)
     assert np.array_equal(obs, np.array([2, 4]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([2, 5]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([3, 5]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([3, 5]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([4, 5]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([5, 5]))
     assert reward == 1
     assert terminated
@@ -115,97 +111,97 @@ def test_grid_world_no_slippery_g2():
     obs, info = env.reset(seed=0)
     assert np.array_equal(obs, np.array([0, 0]))
 
-    obs, reward, terminated, truncated, info = env.step(LEFT)
+    obs, reward, terminated, truncated, info = env.step(Action.LEFT)
     assert np.array_equal(obs, np.array([0, 0]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(DOWN)
+    obs, reward, terminated, truncated, info = env.step(Action.DOWN)
     assert np.array_equal(obs, np.array([0, 0]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([1, 0]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([1, 1]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([1, 1]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([2, 1]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([2, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(LEFT)
+    obs, reward, terminated, truncated, info = env.step(Action.LEFT)
     assert np.array_equal(obs, np.array([2, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([2, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([3, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([3, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(LEFT)
+    obs, reward, terminated, truncated, info = env.step(Action.LEFT)
     assert np.array_equal(obs, np.array([3, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([4, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([5, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([5, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([5, 4]))
     assert reward == -1
     assert terminated
@@ -219,91 +215,91 @@ def test_grid_world_no_slippery_g1_task2():
     obs, info = env.reset(seed=0)
     assert np.array_equal(obs, np.array([0, 0]))
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([0, 1]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([0, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([0, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([0, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([0, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([0, 4]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([1, 4]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(DOWN)
+    obs, reward, terminated, truncated, info = env.step(Action.DOWN)
     assert np.array_equal(obs, np.array([1, 4]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([2, 4]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(DOWN)
+    obs, reward, terminated, truncated, info = env.step(Action.DOWN)
     assert np.array_equal(obs, np.array([2, 4]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([2, 5]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([3, 5]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([3, 5]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([4, 5]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([5, 5]))
     assert reward == -1
     assert terminated
@@ -317,97 +313,97 @@ def test_grid_world_no_slippery_g2_tasks2():
     obs, info = env.reset(seed=0)
     assert np.array_equal(obs, np.array([0, 0]))
 
-    obs, reward, terminated, truncated, info = env.step(LEFT)
+    obs, reward, terminated, truncated, info = env.step(Action.LEFT)
     assert np.array_equal(obs, np.array([0, 0]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(DOWN)
+    obs, reward, terminated, truncated, info = env.step(Action.DOWN)
     assert np.array_equal(obs, np.array([0, 0]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([1, 0]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([1, 1]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([1, 1]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([2, 1]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([2, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(LEFT)
+    obs, reward, terminated, truncated, info = env.step(Action.LEFT)
     assert np.array_equal(obs, np.array([2, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([2, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([3, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([3, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(LEFT)
+    obs, reward, terminated, truncated, info = env.step(Action.LEFT)
     assert np.array_equal(obs, np.array([3, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([4, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([5, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([5, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([5, 4]))
     assert reward == 1
     assert terminated
@@ -421,127 +417,127 @@ def test_grid_world_slippery():
     obs, info = env.reset(seed=0)
     assert np.array_equal(obs, np.array([0, 0]))
 
-    obs, reward, terminated, truncated, info = env.step(LEFT)
+    obs, reward, terminated, truncated, info = env.step(Action.LEFT)
     assert np.array_equal(obs, np.array([0, 0]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(DOWN)
+    obs, reward, terminated, truncated, info = env.step(Action.DOWN)
     assert np.array_equal(obs, np.array([0, 0]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([0, 1]))  # Slips UP
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([1, 1]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([1, 1]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([2, 1]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([2, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(LEFT)
+    obs, reward, terminated, truncated, info = env.step(Action.LEFT)
     assert np.array_equal(obs, np.array([2, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([2, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([3, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([4, 2]))  # Slips RIGHT
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(LEFT)
+    obs, reward, terminated, truncated, info = env.step(Action.LEFT)
     assert np.array_equal(obs, np.array([3, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([2, 2]))  # Slips LEFT
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([3, 2]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([3, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(LEFT)
+    obs, reward, terminated, truncated, info = env.step(Action.LEFT)
     assert np.array_equal(obs, np.array([3, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([4, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([5, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    obs, reward, terminated, truncated, info = env.step(Action.RIGHT)
     assert np.array_equal(obs, np.array([5, 2]))  # Slips DOWN
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([5, 3]))
     assert reward == 0
     assert not terminated
     assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(UP)
+    obs, reward, terminated, truncated, info = env.step(Action.UP)
     assert np.array_equal(obs, np.array([5, 4]))
     assert reward == -1
     assert terminated

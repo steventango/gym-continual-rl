@@ -2,12 +2,8 @@ import gymnasium as gym
 import numpy as np
 
 import gym_continual_rl  # noqa: F401
+from gym_continual_rl.envs.grid_world import Action
 from gym_continual_rl.wrappers import ContinualWrapper, EpisodicContinualWrapper
-
-RIGHT = 0
-UP = 1
-LEFT = 2
-DOWN = 3
 
 
 def test_episodic_continual_wrapper_g1_trajectory():
@@ -62,17 +58,17 @@ def test_episodic_continual_wrapper_g2_trajectory():
 
 def run_g1_trajectory(env: gym.Env):
     for _ in range(5):
-        reward = env.step(UP)[1]
+        reward = env.step(Action.UP)[1]
     for _ in range(5):
-        reward = env.step(RIGHT)[1]
+        reward = env.step(Action.RIGHT)[1]
     return reward
 
 
 def run_g2_trajectory(env: gym.Env):
     for _ in range(5):
-        reward = env.step(RIGHT)[1]
+        reward = env.step(Action.RIGHT)[1]
     for _ in range(4):
-        reward = env.step(UP)[1]
+        reward = env.step(Action.UP)[1]
     return reward
 
 
