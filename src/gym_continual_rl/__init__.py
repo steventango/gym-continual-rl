@@ -9,3 +9,8 @@ register(
     id="gym_continual_rl/LMiniGrid-v0",
     entry_point="gym_continual_rl.envs:LMiniGridEnv",
 )
+
+register(
+    id="gym_continual_rl/Puddle-v0",
+    entry_point="gym_continual_rl.envs:PuddleEnv",
+)

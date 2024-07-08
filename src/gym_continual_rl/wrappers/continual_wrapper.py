@@ -22,7 +22,7 @@ class ContinualWrapper(gym.Wrapper):
         self.task = 0
         self.n_tasks = n_tasks
         self.sample = sample
-        self.np_random, seed = seeding.np_random(seed)
+        self.np_random_task, seed = seeding.np_random(seed)
         if self.sample:
             self.change_task()
 
@@ -35,7 +35,7 @@ class ContinualWrapper(gym.Wrapper):
 
     def change_task(self):
         if self.sample:
-            self.task = self.np_random.integers(self.n_tasks)
+            self.task = self.np_random_task.integers(self.n_tasks)
         else:
             self.task = (self.task + 1) % self.n_tasks
         self.env.change_task(self.task)

@@ -6,7 +6,7 @@ from gym_puddle.env.puddle_env import PuddleEnv as BasePuddleEnv
 from gym_continual_rl.envs.base import BaseContinualEnv
 
 
-class PuddleEnv(BasePuddleEnv, BaseContinualEnv):
+class PuddleEnv(BaseContinualEnv, BasePuddleEnv):
     def __init__(
         self,
         *args,

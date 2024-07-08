@@ -1,6 +1,8 @@
 import gymnasium as gym
+import numpy as np
 
-from gym_continual_rl.wrappers import EpisodicContinualWrapper
+import gym_continual_rl  # noqa: F401
+from gym_continual_rl.wrappers import ContinualWrapper, EpisodicContinualWrapper
 
 RIGHT = 0
 UP = 1
@@ -75,4 +77,76 @@ def run_g2_trajectory(env: gym.Env):
 
 
 def test_continual_wrapper():
-    raise NotImplementedError
+    env = gym.make("gym_continual_rl/Puddle-v0")
+    env = ContinualWrapper(env, task_duration=1, n_tasks=5)
+    _ = env.reset(seed=0)
+    assert np.array_equal(env.puddle_top_left, env.env_setups[0]["puddle_top_left"])
+    assert np.array_equal(env.puddle_width, env.env_setups[0]["puddle_width"])
+
+    env.step(env.action_space.sample())
+    assert np.array_equal(env.puddle_top_left, env.env_setups[1]["puddle_top_left"])
+    assert np.array_equal(env.puddle_width, env.env_setups[1]["puddle_width"])
+
+    env.step(env.action_space.sample())
+    assert np.array_equal(env.puddle_top_left, env.env_setups[2]["puddle_top_left"])
+    assert np.array_equal(env.puddle_width, env.env_setups[2]["puddle_width"])
+
+    env.step(env.action_space.sample())
+    assert np.array_equal(env.puddle_top_left, env.env_setups[3]["puddle_top_left"])
+    assert np.array_equal(env.puddle_width, env.env_setups[3]["puddle_width"])
+
+    env.step(env.action_space.sample())
+    assert np.array_equal(env.puddle_top_left, env.env_setups[4]["puddle_top_left"])
+    assert np.array_equal(env.puddle_width, env.env_setups[4]["puddle_width"])
+
+    env.step(env.action_space.sample())
+    assert np.array_equal(env.puddle_top_left, env.env_setups[0]["puddle_top_left"])
+    assert np.array_equal(env.puddle_width, env.env_setups[0]["puddle_width"])
+
+    env.close()
+
+
+def test_continual_wrapper_sample():
+    env = gym.make("gym_continual_rl/Puddle-v0")
+    env = ContinualWrapper(env, task_duration=1, n_tasks=5, sample=True, seed=0)
+    _ = env.reset(seed=0)
+    assert np.array_equal(env.puddle_top_left, env.env_setups[4]["puddle_top_left"])
+    assert np.array_equal(env.puddle_width, env.env_setups[4]["puddle_width"])
+
+    env.step(env.action_space.sample())
+    assert np.array_equal(env.puddle_top_left, env.env_setups[3]["puddle_top_left"])
+    assert np.array_equal(env.puddle_width, env.env_setups[3]["puddle_width"])
+
+    env.step(env.action_space.sample())
+    assert np.array_equal(env.puddle_top_left, env.env_setups[2]["puddle_top_left"])
+    assert np.array_equal(env.puddle_width, env.env_setups[2]["puddle_width"])
+
+    env.step(env.action_space.sample())
+    assert np.array_equal(env.puddle_top_left, env.env_setups[1]["puddle_top_left"])
+    assert np.array_equal(env.puddle_width, env.env_setups[1]["puddle_width"])
+
+    env.step(env.action_space.sample())
+    assert np.array_equal(env.puddle_top_left, env.env_setups[1]["puddle_top_left"])
+    assert np.array_equal(env.puddle_width, env.env_setups[1]["puddle_width"])
+
+    env.step(env.action_space.sample())
+    assert np.array_equal(env.puddle_top_left, env.env_setups[0]["puddle_top_left"])
+    assert np.array_equal(env.puddle_width, env.env_setups[0]["puddle_width"])
+
+    env.step(env.action_space.sample())
+    assert np.array_equal(env.puddle_top_left, env.env_setups[0]["puddle_top_left"])
+    assert np.array_equal(env.puddle_width, env.env_setups[0]["puddle_width"])
+
+    env.step(env.action_space.sample())
+    assert np.array_equal(env.puddle_top_left, env.env_setups[0]["puddle_top_left"])
+    assert np.array_equal(env.puddle_width, env.env_setups[0]["puddle_width"])
+
+    env.step(env.action_space.sample())
+    assert np.array_equal(env.puddle_top_left, env.env_setups[0]["puddle_top_left"])
+    assert np.array_equal(env.puddle_width, env.env_setups[0]["puddle_width"])
+
+    env.step(env.action_space.sample())
+    assert np.array_equal(env.puddle_top_left, env.env_setups[4]["puddle_top_left"])
+    assert np.array_equal(env.puddle_width, env.env_setups[4]["puddle_width"])
+
+    env.close()
