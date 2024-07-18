@@ -1,9 +1,17 @@
+import enum
 import json
 
 import numpy as np
 from gym_puddle.env.puddle_env import PuddleEnv as BasePuddleEnv
 
 from gym_continual_rl.envs.base import BaseContinualEnv
+
+
+class Action(enum.IntEnum):
+    LEFT = 0
+    RIGHT = 1
+    DOWN = 2
+    UP = 3
 
 
 class PuddleEnv(BaseContinualEnv, BasePuddleEnv):
