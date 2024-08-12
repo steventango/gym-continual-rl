@@ -237,11 +237,11 @@ class JBWEnv(BaseContinualEnv, gym.Env):
 
         return (self.vision_state, self.scent_state, self.feature_state), reward, done, done, {}
 
-    def reset(self, seed=0):
+    def reset(self, seed=None, options=None):
         """Resets this environment to its initial state."""
         del self._sim
         gc.collect()
-        self.sim_config.seed = seed
+        self.sim_config.seed = seed if seed is not None else 0
         self._sim = Simulator(sim_config=self.sim_config)
         self._agent = _JBWEnvAgent(self._sim)
         self.T = 0
@@ -261,7 +261,7 @@ class JBWEnv(BaseContinualEnv, gym.Env):
         self.vision_state = self._agent.vision()
         self.scent_state = self._agent.scent()
         self.feature_state = self.get_features(self.vision_state)
-        return (self.vision_state, self.scent_state, self.feature_state)
+        return (self.vision_state, self.scent_state, self.feature_state), {}
 
     def render(self, mode="matplotlib"):
         if mode == "matplotlib" and self._render:
