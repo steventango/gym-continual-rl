@@ -9,7 +9,114 @@ from jbw.direction import RelativeDirection
 from jbw.item import *
 from jbw.simulator import *
 from jbw.visualizer import MapVisualizer, pi
-from skimage.util.shape import view_as_windows
+
+AGENT_VIEW = 5
+
+
+def make_config():
+    # specify the item types
+    items = []
+    items.append(
+        Item(
+            "JellyBean",
+            [0, 0, 1.0],
+            [0, 0, 1.0],
+            [0, 0, 0],
+            [0, 0, 0],
+            False,
+            0.0,
+            intensity_fn=IntensityFunction.CONSTANT,
+            intensity_fn_args=[-3.5],
+            interaction_fns=[
+                [InteractionFunction.PIECEWISE_BOX, 3, 10, 1, -2],
+                [InteractionFunction.ZERO],
+                [InteractionFunction.PIECEWISE_BOX, 25, 50, -50, -10],
+            ],
+        )
+    )
+    items.append(
+        Item(
+            "Banana",
+            [0.0, 1.0, 0.0],
+            [0.0, 1.0, 0.0],
+            [0, 0, 0],
+            [0, 0, 0],
+            False,
+            0.0,
+            intensity_fn=IntensityFunction.CONSTANT,
+            intensity_fn_args=[-6.0],
+            interaction_fns=[[InteractionFunction.ZERO], [InteractionFunction.ZERO], [InteractionFunction.ZERO]],
+        )
+    )
+    items.append(
+        Item(
+            "Onion",
+            [1.0, 0.0, 0.0],
+            [1.0, 0.0, 0.0],
+            [0, 0, 0],
+            [0, 0, 0],
+            False,
+            0.0,
+            intensity_fn=IntensityFunction.CONSTANT,
+            intensity_fn_args=[-3.5],
+            interaction_fns=[
+                [InteractionFunction.PIECEWISE_BOX, 25, 50, -50, -10],
+                [InteractionFunction.ZERO],
+                [InteractionFunction.PIECEWISE_BOX, 3, 10, 1, -2],
+            ],
+        )
+    )
+    # construct the simulator configuration
+    return SimulatorConfig(
+        max_steps_per_movement=1,
+        vision_range=AGENT_VIEW,
+        allowed_movement_directions=[
+            ActionPolicy.ALLOWED,
+            ActionPolicy.ALLOWED,
+            ActionPolicy.ALLOWED,
+            ActionPolicy.ALLOWED,
+        ],
+        allowed_turn_directions=[
+            ActionPolicy.DISALLOWED,
+            ActionPolicy.DISALLOWED,
+            ActionPolicy.DISALLOWED,
+            ActionPolicy.DISALLOWED,
+        ],
+        no_op_allowed=False,
+        patch_size=32,
+        mcmc_num_iter=4000,
+        items=items,
+        agent_color=[0.0, 0.0, 0.0],
+        agent_field_of_view=2 * pi,
+        collision_policy=MovementConflictPolicy.FIRST_COME_FIRST_SERVED,
+        decay_param=0.0,
+        diffusion_param=0.14,
+        deleted_item_lifetime=500,
+    )
+
+
+def make_reward():
+    def get_reward(prev_item, item, T):
+        if (T // 150000) % 2 == 0:
+            if item[0] - prev_item[0] == 1:
+                return 2
+            elif item[2] - prev_item[2] == 1:
+                return -1
+            elif item[1] - prev_item[1] == 1:
+                return 0.1
+            else:
+                return 0
+        else:
+            if item[0] - prev_item[0] == 1:
+                return -1
+            elif item[2] - prev_item[2] == 1:
+                return 2
+            elif item[1] - prev_item[1] == 1:
+                return 0.1
+            else:
+                return 0
+
+    return get_reward
 
 
 class JBWEnv(gym.Env):
@@ -93,21 +200,7 @@ class JBWEnv(gym.Env):
 		return channel
 
 	def feature_picker(self, ftype="hash"):
-		if ftype == "hash":
-			self.t_size = 2048
-			def feature_func(vision_state):
-				features = []
-				obs_channel = np.apply_along_axis(self.convert, 2, vision_state)
-				obs_hash = obs_channel.choose(self.hash_vals)
-				for s in self.shape_set:
-					ids = np.bitwise_xor.reduce(view_as_windows(obs_hash, s), axis=(2,3)).flatten()%self.t_size
-					features.extend(list(ids))
-				feature_state = np.zeros(self.t_size)
-				feature_state[list(set(features))] = 1
-				return feature_state.flatten()
-			return feature_func
-
-		elif ftype == "obj":
+		if ftype == "obj":
 			self.t_size = (len(self.hash_dict) - 1) * (self.sim_config.vision_range * 2 + 1)**2
 			def feature_func(vision_state):
 				features = []
@@ -135,7 +228,7 @@ class JBWEnv(gym.Env):
 		self.scent_state = self._agent.scent()
 		self.feature_state = self.get_features(self.vision_state)
 
-		return (self.vision_state, self.scent_state, self.feature_state), reward, done, {}
+		return (self.vision_state, self.scent_state, self.feature_state), reward, done, done, {}
 
 	def reset(self):
 		"""Resets this environment to its initial state."""
