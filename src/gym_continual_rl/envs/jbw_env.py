@@ -266,6 +266,8 @@ class JBWEnv(BaseContinualEnv, gym.Env):
     def render(self, mode="matplotlib"):
         if mode == "matplotlib" and self._render:
             self._painter.draw()
+            canvas = self._painter._fig.canvas
+            return np.frombuffer(canvas.tostring_rgb(), dtype=np.uint8).reshape(*reversed(canvas.get_width_height()), 3)
         elif not self._render:
             logger.warn("Need to pass `render=True` to support rendering.")
         else:
