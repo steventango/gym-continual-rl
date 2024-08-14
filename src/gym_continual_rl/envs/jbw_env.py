@@ -186,17 +186,15 @@ class JBWEnv(BaseContinualEnv, gym.Env):
         # vector, a vision matrix, and a binary value
         # indicating whether the last action resulted in the
         # agent moving.
-        self.observation_space = spaces.Box(low=min_vision, high=max_vision)
+        self.observation_space = spaces.Box(low=np.zeros(self.t_size), high=np.ones(self.t_size))
         self.scent_space = spaces.Box(low=min_scent, high=max_scent)
         self.action_space = spaces.Discrete(4)
         self.feature_space = spaces.Box(low=np.zeros(self.t_size), high=np.ones(self.t_size))
 
     def change_task(self, task: int) -> None:
         if task == 0:
-
             self._reward_fn = get_reward_0
         elif task == 1:
-
             self._reward_fn = get_reward_1
 
     def convert(self, vector):
@@ -213,7 +211,7 @@ class JBWEnv(BaseContinualEnv, gym.Env):
                 features = []
                 obs_channel = np.apply_along_axis(self.convert, 2, vision_state)
                 obs_channel = obs_channel.flatten()
-                features = np.zeros((obs_channel.size, len(self.hash_dict)))
+                features = np.zeros((obs_channel.size, len(self.hash_dict)), dtype=np.float32)
                 features[np.arange(obs_channel.size), obs_channel] = 1
                 return features[:, 1:].flatten()
 
@@ -235,7 +233,7 @@ class JBWEnv(BaseContinualEnv, gym.Env):
         self.scent_state = self._agent.scent()
         self.feature_state = self.get_features(self.vision_state)
 
-        return (self.vision_state, self.scent_state, self.feature_state), reward, done, done, {}
+        return self.feature_state, reward, done, done, {}
 
     def reset(self, seed=None, options=None):
         """Resets this environment to its initial state."""
@@ -261,7 +259,7 @@ class JBWEnv(BaseContinualEnv, gym.Env):
         self.vision_state = self._agent.vision()
         self.scent_state = self._agent.scent()
         self.feature_state = self.get_features(self.vision_state)
-        return (self.vision_state, self.scent_state, self.feature_state), {}
+        return self.feature_state, {}
 
     def render(self, mode="matplotlib"):
         if mode == "matplotlib" and self._render:
