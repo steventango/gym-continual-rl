@@ -120,6 +120,7 @@ def get_reward_1(prev_item, item):
 
 
 class JBWEnv(BaseContinualEnv, gym.Env):
+    metadata = {"render_modes": ["matplotlib", "rgb_array"], "render_fps": 4}
     """
     JBW environment for OpenAI gym.
     The action space consists of four actions:
@@ -137,7 +138,7 @@ class JBWEnv(BaseContinualEnv, gym.Env):
       action resulted in the agent moving.
     """
 
-    def __init__(self, sim_config = make_config(), reward_fn = get_reward_0, task: int = 0, render=False, f_type="obj"):
+    def __init__(self, sim_config = make_config(), reward_fn = get_reward_0, task: int = 0, render_mode=None, f_type="obj"):
         """
         Creates a new JBW environment for OpenAI gym.
         Arguments:
@@ -149,7 +150,7 @@ class JBWEnv(BaseContinualEnv, gym.Env):
                                                                   collected items as inputs
                                                                   and returns a reward
                                                                   value.
-        render(bool)                Boolean value indicating
+        render_mode(bool)                Boolean value indicating
                                                                   whether or not to support
                                                                   rendering the
                                                                   environment.
@@ -159,7 +160,8 @@ class JBWEnv(BaseContinualEnv, gym.Env):
         self._painter = None
         self._reward_fn = reward_fn
         self.change_task(task)
-        self._render = render
+        self._render = bool(render_mode)
+        self.render_mode = render_mode
         self.T = 0
         self.f_type = f_type
 
@@ -261,8 +263,10 @@ class JBWEnv(BaseContinualEnv, gym.Env):
         self.feature_state = self.get_features(self.vision_state)
         return self.feature_state, {}
 
-    def render(self, mode="matplotlib"):
-        if mode == "matplotlib" and self._render:
+    def render(self, mode="rgb_array"):
+        if self.render_mode == "matplotlib":
+            self._painter.draw()
+        if self.render_mode == "rgb_array":
             self._painter.draw()
             canvas = self._painter._fig.canvas
             return np.frombuffer(canvas.tostring_rgb(), dtype=np.uint8).reshape(*reversed(canvas.get_width_height()), 3)

@@ -20,6 +20,5 @@ register(
     entry_point="gym_continual_rl.envs:JBWEnv",
     kwargs={
         "f_type": "obj",
-        "render": False,
     },
 )
