@@ -20,9 +20,9 @@ def make_config():
     items = []
     items.append(
         Item(
-            "JellyBean",
-            [0, 0, 1.0],
-            [0, 0, 1.0],
+            "Onion",
+            [1.0, 0.0, 0.0],
+            [1.0, 0.0, 0.0],
             [0, 0, 0],
             [0, 0, 0],
             False,
@@ -52,9 +52,9 @@ def make_config():
     )
     items.append(
         Item(
-            "Onion",
-            [1.0, 0.0, 0.0],
-            [1.0, 0.0, 0.0],
+            "JellyBean",
+            [0, 0, 1.0],
+            [0, 0, 1.0],
             [0, 0, 0],
             [0, 0, 0],
             False,
@@ -99,9 +99,9 @@ def make_config():
 
 def get_reward_0(prev_item, item):
     if item[0] - prev_item[0] == 1:
-        return 2
-    elif item[2] - prev_item[2] == 1:
         return -1
+    elif item[2] - prev_item[2] == 1:
+        return 2
     elif item[1] - prev_item[1] == 1:
         return 0.1
     else:
@@ -110,9 +110,9 @@ def get_reward_0(prev_item, item):
 
 def get_reward_1(prev_item, item):
     if item[0] - prev_item[0] == 1:
-        return -1
-    elif item[2] - prev_item[2] == 1:
         return 2
+    elif item[2] - prev_item[2] == 1:
+        return -1
     elif item[1] - prev_item[1] == 1:
         return 0.1
     else:
