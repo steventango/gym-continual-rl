@@ -68,6 +68,7 @@ def make_config():
             ],
         )
     )
+
     # construct the simulator configuration
     return SimulatorConfig(
         max_steps_per_movement=1,
@@ -97,29 +98,7 @@ def make_config():
     )
 
 
-def get_reward_0(prev_item, item):
-    if item[0] - prev_item[0] == 1:
-        return -1
-    elif item[2] - prev_item[2] == 1:
-        return 2
-    elif item[1] - prev_item[1] == 1:
-        return 0.1
-    else:
-        return 0
-
-
-def get_reward_1(prev_item, item):
-    if item[0] - prev_item[0] == 1:
-        return 2
-    elif item[2] - prev_item[2] == 1:
-        return -1
-    elif item[1] - prev_item[1] == 1:
-        return 0.1
-    else:
-        return 0
-
-
-class JBW1Env(BaseContinualEnv, gym.Env):
+class JBW1Env(gym.Env):
     metadata = {"render_modes": ["matplotlib", "rgb_array"], "render_fps": 4}
     """
     JBW environment for OpenAI gym.
@@ -138,18 +117,12 @@ class JBW1Env(BaseContinualEnv, gym.Env):
       action resulted in the agent moving.
     """
 
-    def __init__(self, sim_config = make_config(), reward_fn = get_reward_0, task: int = 0, render_mode=None, f_type="obj"):
+    def __init__(self, sim_config = make_config(), task: int = 0, render_mode=None, f_type="obj"):
         """
         Creates a new JBW environment for OpenAI gym.
         Arguments:
         sim_config(SimulatorConfig) Simulator configuration
                                                                   to use.
-        reward_fn(callable)         Function that takes the
-                                                                  previously collected
-                                                                  items and the current
-                                                                  collected items as inputs
-                                                                  and returns a reward
-                                                                  value.
         render_mode(bool)                Boolean value indicating
                                                                   whether or not to support
                                                                   rendering the
@@ -158,12 +131,14 @@ class JBW1Env(BaseContinualEnv, gym.Env):
         self.sim_config = sim_config
         self._sim = None
         self._painter = None
-        self._reward_fn = reward_fn
-        self.change_task(task)
         self._render = bool(render_mode)
         self.render_mode = render_mode
         self.T = 0
         self.f_type = f_type
+
+        self.interval = 200_000
+        self.half_interval = self.interval // 2
+        self.quarter_interval = self.interval // 4
 
         # Computing shapes for the observation space.
         self.hash_dict = {(0, 0, 0): 0, (1, 0, 0): 1, (0, 1, 0): 2, (0, 0, 1): 3}
@@ -193,12 +168,6 @@ class JBW1Env(BaseContinualEnv, gym.Env):
         self.action_space = spaces.Discrete(4)
         self.feature_space = spaces.Box(low=np.zeros(self.t_size), high=np.ones(self.t_size))
 
-    def change_task(self, task: int) -> None:
-        if task == 0:
-            self._reward_fn = get_reward_0
-        elif task == 1:
-            self._reward_fn = get_reward_1
-
     def convert(self, vector):
         vector = np.ceil(vector)
         tuple_vec = tuple(vector)
@@ -213,29 +182,37 @@ class JBW1Env(BaseContinualEnv, gym.Env):
                 features = []
                 obs_channel = np.apply_along_axis(self.convert, 2, vision_state)
                 obs_channel = obs_channel.flatten()
-                features = np.zeros((obs_channel.size, len(self.hash_dict)), dtype=np.float32)
+                features = np.zeros((obs_channel.size, len(self.hash_dict)))
                 features[np.arange(obs_channel.size), obs_channel] = 1
                 return features[:, 1:].flatten()
 
             return feature_func
 
+    def reward_fn(self, prev_items, items):
+        timestep_interval = self.T % self.half_interval
+        jellybean_weight = 1 - timestep_interval / self.quarter_interval
+        if (self.T // self.half_interval) % 2 == 1:
+            jellybean_weight *= -1
+        onion_weight = -1 * jellybean_weight
+        delta_items = items - prev_items
+        reward = onion_weight * delta_items[0] + 0.1 * delta_items[1] + jellybean_weight * delta_items[2]
+        return reward.astype(np.float32)
+
     def step(self, action):
-        prev_position = self._agent.position()
         prev_items = self._agent.collected_items()
 
         self._agent._next_action = action
         self._agent.do_next_action()
 
-        position = self._agent.position()
         items = self._agent.collected_items()
-        reward = self._reward_fn(prev_items, items)
+        reward = self.reward_fn(prev_items, items)
         done = False
 
         self.vision_state = self._agent.vision()
         self.scent_state = self._agent.scent()
-        self.feature_state = self.get_features(self.vision_state)
+        self.T += 1
 
-        return self.feature_state, reward, done, done, {}
+        return self.vision_state, reward, done, done, {}
 
     def reset(self, seed=None, options=None):
         """Resets this environment to its initial state."""
@@ -260,8 +237,7 @@ class JBW1Env(BaseContinualEnv, gym.Env):
             self._painter = MapVisualizer(self._sim, self.sim_config, bottom_left=(-70, -70), top_right=(70, 70))
         self.vision_state = self._agent.vision()
         self.scent_state = self._agent.scent()
-        self.feature_state = self.get_features(self.vision_state)
-        return self.feature_state, {}
+        return self.vision_state, {}
 
     def render(self, mode="rgb_array"):
         if self.render_mode == "matplotlib":
