@@ -119,7 +119,7 @@ def get_reward_1(prev_item, item):
         return 0
 
 
-class JBWEnv(BaseContinualEnv, gym.Env):
+class JBW0Env(BaseContinualEnv, gym.Env):
     metadata = {"render_modes": ["matplotlib", "rgb_array"], "render_fps": 4}
     """
     JBW environment for OpenAI gym.

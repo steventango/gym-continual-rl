@@ -6,7 +6,7 @@ from jbw.visualizer import MapVisualizer
 from PIL import Image
 
 import gym_continual_rl  # noqa: F401
-from gym_continual_rl.envs.jbw_env import get_reward_0, get_reward_1
+from gym_continual_rl.envs.jbw1_env import get_reward_0, get_reward_1
 
 UP = 0
 LEFT = 1
@@ -15,7 +15,7 @@ DOWN = 3
 
 
 def test_jbw_env_task_0():
-    env = gym.make("gym_continual_rl/JBW-v0", task=0)
+    env = gym.make("gym_continual_rl/JBW-v1", task=0)
     _ = env.reset(seed=0)
     assert env.unwrapped._reward_fn == get_reward_0
 
@@ -66,7 +66,7 @@ def test_jbw_env_task_0():
 
 
 def test_jbw_env_task_1():
-    env = gym.make("gym_continual_rl/JBW-v0", task=1)
+    env = gym.make("gym_continual_rl/JBW-v1", task=1)
     _ = env.reset(seed=0)
     assert env.unwrapped._reward_fn == get_reward_1
 
@@ -117,7 +117,7 @@ def test_jbw_env_task_1():
 
 
 def test_jbw_env_render():
-    env = gym.make("gym_continual_rl/JBW-v0", task=0, render_mode="rgb_array")
+    env = gym.make("gym_continual_rl/JBW-v1", task=0, render_mode="rgb_array")
     env.reset(seed=0)
     frame = env.render()
     image = Image.fromarray(frame)
@@ -128,7 +128,7 @@ def test_jbw_env_render():
 
 
 def test_jbw_env_render_zoomed_out():
-    env = gym.make("gym_continual_rl/JBW-v0", task=0, render_mode="rgb_array")
+    env = gym.make("gym_continual_rl/JBW-v1", task=0, render_mode="rgb_array")
     env.reset(seed=0)
     env.unwrapped._painter = MapVisualizer(env.unwrapped._sim, env.unwrapped.sim_config, bottom_left=(-512, -512), top_right=(512, 512))
 

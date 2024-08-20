@@ -17,7 +17,15 @@ register(
 
 register(
     id="gym_continual_rl/JBW-v0",
-    entry_point="gym_continual_rl.envs:JBWEnv",
+    entry_point="gym_continual_rl.envs:JBW0Env",
+    kwargs={
+        "f_type": "obj",
+    },
+)
+
+register(
+    id="gym_continual_rl/JBW-v1",
+    entry_point="gym_continual_rl.envs:JBW1Env",
     kwargs={
         "f_type": "obj",
     },
