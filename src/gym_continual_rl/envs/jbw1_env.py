@@ -162,7 +162,7 @@ class JBW1Env(gym.Env):
         # vector, a vision matrix, and a binary value
         # indicating whether the last action resulted in the
         # agent moving.
-        self.observation_space = spaces.Box(low=np.zeros(self.t_size), high=np.ones(self.t_size))
+        self.observation_space = spaces.Box(low=0, high=1, shape=vision_shape)
         self.scent_space = spaces.Box(low=min_scent, high=max_scent)
         self.action_space = spaces.Discrete(4)
         self.feature_space = spaces.Box(low=np.zeros(self.t_size), high=np.ones(self.t_size))
