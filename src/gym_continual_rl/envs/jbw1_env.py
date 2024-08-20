@@ -138,7 +138,6 @@ class JBW1Env(gym.Env):
 
         self.interval = 200_000
         self.half_interval = self.interval // 2
-        self.quarter_interval = self.interval // 4
 
         # Computing shapes for the observation space.
         self.hash_dict = {(0, 0, 0): 0, (1, 0, 0): 1, (0, 1, 0): 2, (0, 0, 1): 3}
@@ -189,10 +188,7 @@ class JBW1Env(gym.Env):
             return feature_func
 
     def reward_fn(self, prev_items, items):
-        timestep_interval = self.T % self.half_interval
-        jellybean_weight = 1 - timestep_interval / self.quarter_interval
-        if (self.T // self.half_interval) % 2 == 1:
-            jellybean_weight *= -1
+        jellybean_weight = np.cos(self.T * np.pi / self.half_interval)
         onion_weight = -1 * jellybean_weight
         delta_items = items - prev_items
         reward = onion_weight * delta_items[0] + 0.1 * delta_items[1] + jellybean_weight * delta_items[2]

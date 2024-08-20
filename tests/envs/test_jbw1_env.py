@@ -30,7 +30,7 @@ def test_jbw_env_period_0():
         assert not truncated
 
     obs, reward, terminated, truncated, info = env.step(UP)
-    np.testing.assert_almost_equal(reward, 0.9999)
+    np.testing.assert_almost_equal(reward, 1)
     assert not terminated
     assert not truncated
 
@@ -40,15 +40,11 @@ def test_jbw_env_period_0():
         assert not terminated
         assert not truncated
 
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
-    np.testing.assert_almost_equal(reward, -0.99972)
-    assert not terminated
-    assert not truncated
-
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
-    np.testing.assert_almost_equal(reward, -0.9997)
-    assert not terminated
-    assert not truncated
+    for _ in range(2):
+        obs, reward, terminated, truncated, info = env.step(RIGHT)
+        np.testing.assert_almost_equal(reward, -1)
+        assert not terminated
+        assert not truncated
 
     for _ in range(10):
         obs, reward, terminated, truncated, info = env.step(RIGHT)
@@ -85,7 +81,7 @@ def test_jbw_env_period_0_25():
         assert not truncated
 
     obs, reward, terminated, truncated, info = env.step(UP)
-    np.testing.assert_almost_equal(reward, -0.0001)
+    np.testing.assert_almost_equal(reward, -0.0001571)
     assert not terminated
     assert not truncated
 
@@ -96,11 +92,11 @@ def test_jbw_env_period_0_25():
         assert not truncated
 
     obs, reward, terminated, truncated, info = env.step(RIGHT)
-    np.testing.assert_almost_equal(reward, 0.00028)
+    np.testing.assert_almost_equal(reward, 0.0004398)
     assert not terminated
     assert not truncated
     obs, reward, terminated, truncated, info = env.step(RIGHT)
-    np.testing.assert_almost_equal(reward, 0.0003)
+    np.testing.assert_almost_equal(reward, 0.0004712)
     assert not terminated
     assert not truncated
 
@@ -139,7 +135,7 @@ def test_jbw_env_period_0_50():
         assert not truncated
 
     obs, reward, terminated, truncated, info = env.step(UP)
-    np.testing.assert_almost_equal(reward, -0.9999)
+    np.testing.assert_almost_equal(reward, -1)
     assert not terminated
     assert not truncated
 
@@ -150,12 +146,12 @@ def test_jbw_env_period_0_50():
         assert not truncated
 
     obs, reward, terminated, truncated, info = env.step(RIGHT)
-    np.testing.assert_almost_equal(reward, 0.99972)
+    np.testing.assert_almost_equal(reward, 1)
     assert not terminated
     assert not truncated
 
     obs, reward, terminated, truncated, info = env.step(RIGHT)
-    np.testing.assert_almost_equal(reward, 0.9997)
+    np.testing.assert_almost_equal(reward, 1)
     assert not terminated
     assert not truncated
 
@@ -193,7 +189,7 @@ def test_jbw_env_period_0_75():
         assert not truncated
 
     obs, reward, terminated, truncated, info = env.step(UP)
-    np.testing.assert_almost_equal(reward, 0.0001)
+    np.testing.assert_almost_equal(reward, 0.0001571)
     assert not terminated
     assert not truncated
 
@@ -204,11 +200,11 @@ def test_jbw_env_period_0_75():
         assert not truncated
 
     obs, reward, terminated, truncated, info = env.step(RIGHT)
-    np.testing.assert_almost_equal(reward, -0.00028)
+    np.testing.assert_almost_equal(reward, -0.0004398)
     assert not terminated
     assert not truncated
     obs, reward, terminated, truncated, info = env.step(RIGHT)
-    np.testing.assert_almost_equal(reward, -0.0003)
+    np.testing.assert_almost_equal(reward, -0.0004712)
     assert not terminated
     assert not truncated
 
@@ -247,7 +243,7 @@ def test_jbw_env_period_1():
         assert not truncated
 
     obs, reward, terminated, truncated, info = env.step(UP)
-    np.testing.assert_almost_equal(reward, 0.9999)
+    np.testing.assert_almost_equal(reward, 1)
     assert not terminated
     assert not truncated
 
@@ -258,12 +254,12 @@ def test_jbw_env_period_1():
         assert not truncated
 
     obs, reward, terminated, truncated, info = env.step(RIGHT)
-    np.testing.assert_almost_equal(reward, -0.99972)
+    np.testing.assert_almost_equal(reward, -1)
     assert not terminated
     assert not truncated
 
     obs, reward, terminated, truncated, info = env.step(RIGHT)
-    np.testing.assert_almost_equal(reward, -0.9997)
+    np.testing.assert_almost_equal(reward, -1)
     assert not terminated
     assert not truncated
 
