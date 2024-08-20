@@ -12,13 +12,14 @@ class ContinualWrapper(gym.Wrapper):
         self,
         env: BaseContinualEnv,
         task_duration: int = 50,
+        offset: int = 0,
         n_tasks: int = 2,
         sample: bool = False,
         seed: int | None = None,
     ):
         super().__init__(env)
         self.task_duration = task_duration
-        self.counter = 0
+        self.counter = offset
         self.task = 0
         self.n_tasks = n_tasks
         self.sample = sample
@@ -46,11 +47,12 @@ class EpisodicContinualWrapper(ContinualWrapper):
         self,
         env: BaseContinualEnv,
         task_duration: int = 50,
+        offset: int = 0,
         n_tasks: int = 2,
         sample: bool = False,
         seed: int | None = None,
     ):
-        super().__init__(env, task_duration, n_tasks, sample, seed)
+        super().__init__(env, task_duration, offset, n_tasks, sample, seed)
 
     def step(self, action: WrapperActType) -> tuple[WrapperObsType, SupportsFloat, bool, bool, dict[str, Any]]:
         obs, reward, terminated, truncated, info = self.env.step(action)

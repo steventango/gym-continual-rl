@@ -146,3 +146,36 @@ def test_continual_wrapper_sample():
     assert np.array_equal(env.unwrapped.puddle_width, env.unwrapped.env_setups[4]["puddle_width"])
 
     env.close()
+
+
+def test_continual_wrapper_offset():
+    env = gym.make("gym_continual_rl/PuddleWorld-v0")
+    env = ContinualWrapper(env, task_duration=2, offset=1, n_tasks=5)
+    _ = env.reset(seed=0)
+    assert np.array_equal(env.unwrapped.puddle_top_left, env.unwrapped.env_setups[0]["puddle_top_left"])
+    assert np.array_equal(env.unwrapped.puddle_width, env.unwrapped.env_setups[0]["puddle_width"])
+
+    for _ in range(2):
+        env.step(env.action_space.sample())
+        assert np.array_equal(env.unwrapped.puddle_top_left, env.unwrapped.env_setups[1]["puddle_top_left"])
+        assert np.array_equal(env.unwrapped.puddle_width, env.unwrapped.env_setups[1]["puddle_width"])
+
+    for _ in range(2):
+        env.step(env.action_space.sample())
+        assert np.array_equal(env.unwrapped.puddle_top_left, env.unwrapped.env_setups[2]["puddle_top_left"])
+        assert np.array_equal(env.unwrapped.puddle_width, env.unwrapped.env_setups[2]["puddle_width"])
+
+    for _ in range(2):
+        env.step(env.action_space.sample())
+        assert np.array_equal(env.unwrapped.puddle_top_left, env.unwrapped.env_setups[3]["puddle_top_left"])
+        assert np.array_equal(env.unwrapped.puddle_width, env.unwrapped.env_setups[3]["puddle_width"])
+
+    for _ in range(2):
+        env.step(env.action_space.sample())
+        assert np.array_equal(env.unwrapped.puddle_top_left, env.unwrapped.env_setups[4]["puddle_top_left"])
+        assert np.array_equal(env.unwrapped.puddle_width, env.unwrapped.env_setups[4]["puddle_width"])
+
+    for _ in range(2):
+        env.step(env.action_space.sample())
+        assert np.array_equal(env.unwrapped.puddle_top_left, env.unwrapped.env_setups[0]["puddle_top_left"])
+        assert np.array_equal(env.unwrapped.puddle_width, env.unwrapped.env_setups[0]["puddle_width"])
