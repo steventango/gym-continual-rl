@@ -98,7 +98,7 @@ def make_config():
     )
 
 
-class JBW1Env(gym.Env):
+class JBW1Env(BaseContinualEnv, gym.Env):
     metadata = {"render_modes": ["matplotlib", "rgb_array"], "render_fps": 4}
     """
     JBW environment for OpenAI gym.
@@ -193,6 +193,9 @@ class JBW1Env(gym.Env):
         delta_items = items - prev_items
         reward = onion_weight * delta_items[0] + 0.1 * delta_items[1] + jellybean_weight * delta_items[2]
         return reward.astype(np.float32)
+
+    def change_task(self, _):
+        pass
 
     def step(self, action):
         prev_items = self._agent.collected_items()
