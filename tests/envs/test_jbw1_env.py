@@ -30,6 +30,60 @@ def test_jbw_env_period_0():
         assert not truncated
 
     obs, reward, terminated, truncated, info = env.step(UP)
+    np.testing.assert_almost_equal(reward, 0.0001571)
+    assert not terminated
+    assert not truncated
+
+    for _ in range(8):
+        obs, reward, terminated, truncated, info = env.step(RIGHT)
+        assert reward == 0
+        assert not terminated
+        assert not truncated
+
+    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    np.testing.assert_almost_equal(reward, -0.0004398)
+    assert not terminated
+    assert not truncated
+    obs, reward, terminated, truncated, info = env.step(RIGHT)
+    np.testing.assert_almost_equal(reward, -0.0004712)
+    assert not terminated
+    assert not truncated
+
+    for _ in range(10):
+        obs, reward, terminated, truncated, info = env.step(RIGHT)
+        assert reward == 0
+        assert not terminated
+        assert not truncated
+
+    obs, reward, terminated, truncated, info = env.step(DOWN)
+    assert reward == 0
+    assert not terminated
+    assert not truncated
+
+    obs, reward, terminated, truncated, info = env.step(DOWN)
+    np.testing.assert_almost_equal(reward, 0.1)
+    assert not terminated
+    assert not truncated
+
+
+def test_jbw_env_period_0_25():
+    env = gym.make("gym_continual_rl/JBW-v1")
+    _ = env.reset(seed=0)
+    env.unwrapped.T = 50000
+
+    for _ in range(2):
+        obs, reward, terminated, truncated, info = env.step(LEFT)
+        assert reward == 0
+        assert not terminated
+        assert not truncated
+
+    for _ in range(3):
+        obs, reward, terminated, truncated, info = env.step(UP)
+        assert reward == 0
+        assert not terminated
+        assert not truncated
+
+    obs, reward, terminated, truncated, info = env.step(UP)
     np.testing.assert_almost_equal(reward, 1)
     assert not terminated
     assert not truncated
@@ -63,10 +117,10 @@ def test_jbw_env_period_0():
     assert not truncated
 
 
-def test_jbw_env_period_0_25():
+def test_jbw_env_period_0_50():
     env = gym.make("gym_continual_rl/JBW-v1")
     _ = env.reset(seed=0)
-    env.unwrapped.T = 50000
+    env.unwrapped.T = 100000
 
     for _ in range(2):
         obs, reward, terminated, truncated, info = env.step(LEFT)
@@ -117,10 +171,10 @@ def test_jbw_env_period_0_25():
     assert not truncated
 
 
-def test_jbw_env_period_0_50():
+def test_jbw_env_period_0_75():
     env = gym.make("gym_continual_rl/JBW-v1")
     _ = env.reset(seed=0)
-    env.unwrapped.T = 100000
+    env.unwrapped.T = 150000
 
     for _ in range(2):
         obs, reward, terminated, truncated, info = env.step(LEFT)
@@ -171,10 +225,11 @@ def test_jbw_env_period_0_50():
     assert not terminated
     assert not truncated
 
-def test_jbw_env_period_0_75():
+
+def test_jbw_env_period_1():
     env = gym.make("gym_continual_rl/JBW-v1")
     _ = env.reset(seed=0)
-    env.unwrapped.T = 150000
+    env.unwrapped.T = 200000
 
     for _ in range(2):
         obs, reward, terminated, truncated, info = env.step(LEFT)
@@ -225,63 +280,8 @@ def test_jbw_env_period_0_75():
     assert not truncated
 
 
-def test_jbw_env_period_1():
-    env = gym.make("gym_continual_rl/JBW-v1")
-    _ = env.reset(seed=0)
-    env.unwrapped.T = 200000
-
-    for _ in range(2):
-        obs, reward, terminated, truncated, info = env.step(LEFT)
-        assert reward == 0
-        assert not terminated
-        assert not truncated
-
-    for _ in range(3):
-        obs, reward, terminated, truncated, info = env.step(UP)
-        assert reward == 0
-        assert not terminated
-        assert not truncated
-
-    obs, reward, terminated, truncated, info = env.step(UP)
-    np.testing.assert_almost_equal(reward, 1)
-    assert not terminated
-    assert not truncated
-
-    for _ in range(8):
-        obs, reward, terminated, truncated, info = env.step(RIGHT)
-        assert reward == 0
-        assert not terminated
-        assert not truncated
-
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
-    np.testing.assert_almost_equal(reward, -1)
-    assert not terminated
-    assert not truncated
-
-    obs, reward, terminated, truncated, info = env.step(RIGHT)
-    np.testing.assert_almost_equal(reward, -1)
-    assert not terminated
-    assert not truncated
-
-    for _ in range(10):
-        obs, reward, terminated, truncated, info = env.step(RIGHT)
-        assert reward == 0
-        assert not terminated
-        assert not truncated
-
-    obs, reward, terminated, truncated, info = env.step(DOWN)
-    assert reward == 0
-    assert not terminated
-    assert not truncated
-
-    obs, reward, terminated, truncated, info = env.step(DOWN)
-    np.testing.assert_almost_equal(reward, 0.1)
-    assert not terminated
-    assert not truncated
-
-
 def test_jbw_env_render():
-    env = gym.make("gym_continual_rl/JBW-v1", task=0, render_mode="rgb_array")
+    env = gym.make("gym_continual_rl/JBW-v1", render_mode="rgb_array")
     env.reset(seed=0)
     frame = env.render()
     image = Image.fromarray(frame)
@@ -292,7 +292,7 @@ def test_jbw_env_render():
 
 
 def test_jbw_env_render_zoomed_out():
-    env = gym.make("gym_continual_rl/JBW-v1", task=0, render_mode="rgb_array")
+    env = gym.make("gym_continual_rl/JBW-v1", render_mode="rgb_array")
     env.reset(seed=0)
     env.unwrapped._painter = MapVisualizer(env.unwrapped._sim, env.unwrapped.sim_config, bottom_left=(-512, -512), top_right=(512, 512))
 
