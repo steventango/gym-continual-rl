@@ -117,7 +117,7 @@ class JBW1Env(BaseContinualEnv, gym.Env):
       action resulted in the agent moving.
     """
 
-    def __init__(self, sim_config = make_config(), task: int = 0, render_mode=None, f_type="obj"):
+    def __init__(self, sim_config = make_config(), period: int = 200_000, render_mode=None, f_type="obj"):
         """
         Creates a new JBW environment for OpenAI gym.
         Arguments:
@@ -136,7 +136,7 @@ class JBW1Env(BaseContinualEnv, gym.Env):
         self.T = 0
         self.f_type = f_type
 
-        self.interval = 200_000
+        self.interval = period
         self.half_interval = self.interval // 2
 
         # Computing shapes for the observation space.
@@ -188,7 +188,7 @@ class JBW1Env(BaseContinualEnv, gym.Env):
             return feature_func
 
     def reward_fn(self, prev_items, items):
-        jellybean_weight = np.cos(self.T * np.pi / self.half_interval)
+        jellybean_weight = np.sin(self.T * np.pi / self.half_interval)
         onion_weight = -1 * jellybean_weight
         delta_items = items - prev_items
         reward = onion_weight * delta_items[0] + 0.1 * delta_items[1] + jellybean_weight * delta_items[2]
