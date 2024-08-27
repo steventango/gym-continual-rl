@@ -30,3 +30,11 @@ register(
         "f_type": "obj",
     },
 )
+
+register(
+    id="gym_continual_rl/JBW-v2",
+    entry_point="gym_continual_rl.envs:JBW2Env",
+    kwargs={
+        "f_type": "obj",
+    },
+)
