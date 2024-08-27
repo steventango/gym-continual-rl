@@ -117,7 +117,7 @@ class JBW2Env(BaseContinualEnv, gym.Env):
       action resulted in the agent moving.
     """
 
-    def __init__(self, sim_config = make_config(), period: int = 200_000, render_mode=None, f_type="obj"):
+    def __init__(self, sim_config = make_config(), period: int = 100_000, render_mode=None, f_type="obj"):
         """
         Creates a new JBW environment for OpenAI gym.
         Arguments:
